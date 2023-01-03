@@ -1,7 +1,7 @@
 from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import QMainWindow, QFrame, QVBoxLayout, QLabel, QToolBar, QPushButton, QSizePolicy, QGridLayout, \
-    QWidget
+from PyQt6.QtWidgets import QMainWindow, QFrame, QVBoxLayout, QLabel, \
+    QPushButton, QGridLayout, QWidget
 
 
 class MainView:
