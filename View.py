@@ -6,100 +6,102 @@ from PyQt6.QtWidgets import QMainWindow, QFrame, QVBoxLayout, QLabel, \
 
 class MainView:
     def __init__(self):
-        # Using PyQt6, create an orange sidebar with a list of buttons
-        # The buttons should be:
-        # - New
-        # - Open
-        # - Save
-        # - Save As
-        # - Exit
-        self.window = self.create_main_window()
-        """ The main window of the application, which includes the 
-        sidebar and the main content area
-        :type: QMainWindow """
+        """Create the main window and all the widgets associated with it
+
+        It has three elements :
+        - The topbar - Contains the title
+        - The toolbar - Contains the buttons
+        - The content area - Contains the content
+        """
+        # Starts by creating the main window
+        self.window = QMainWindow()
+        """The main window"""
+
+        # Creates the main widgets
+        self.header_widget = QFrame()
+        """The topbar"""
+        self.menu_widget = QFrame()
+        """The toolbar"""
+        self.content = QFrame()
+        """The content area"""
+
+        # Creates the layouts for the widgets
+        self.header_layout = QVBoxLayout()
+        """The layout of the topbar"""
+        self.menu_layout = QVBoxLayout()
+        """The layout of the toolbar"""
+        self.content_layout = QGridLayout()
+        """The layout of the content area"""
+
+        # Creates the topbar widgets
+        self.title = QLabel("Keeper 101")
+        """The title"""
+
+        # Creates the toolbar widgets
+        self.new_button = QPushButton("New")
+        """The new button"""
+        self.open_button = QPushButton("Open")
+        """The open button"""
+        self.save_button = QPushButton("Save")
+        """The save button"""
+        self.save_as_button = QPushButton("Save as")
+        """The save as button"""
+        self.exit_button = QPushButton("Exit")
+        """The exit button"""
+
+        self.main_layout = QGridLayout()
+        """The main layout of the main window"""
+        self.main_widget = QWidget()
+        """The main widget of the main window"""
+
+        self.configure_app()
+        """ Configures the main window and all the widgets associated with it"""
 
     def show(self):
         self.window.show()
 
     def close(self):
-        print("View: close")
+        self.window.close()
 
-    def run(self):
-        print("View: run")
+    def configure_app(self):
+        # Change the window title name
+        self.window.setWindowTitle("Keeper 101")
 
-    @staticmethod
-    def create_main_window():
-        # Create a frame that will contain 3 different layouts :
-        # - A topbar with a title that is positionned on top of the window
-        #     - It needs to be 100% width and 10% height
-        # - A toolbar with the buttons (new, open, save, save as, exit)
-        #     - The toolbar should be on the left side of the window
-        # - A content area
-        #     - The content area should be on the right side of the window, under the topbar and right of the toolbar
-
-        # Create the main window
-        window = QMainWindow()
-        window.setWindowTitle("Main Window")
-        window.setWindowIcon(QIcon("icon.png"))
-
-        # Create the topbar
-        header_widget = QFrame()
-        header_widget.setFixedHeight(50)
-        header_widget.setStyleSheet("background-color: #FFA500;") # Orange
-
-        # Create the toolbar
-        menu_widget = QFrame()
-        menu_widget.setFixedWidth(100)
-        menu_widget.setStyleSheet("background-color: #FFA500;") # Orange
-
-        # Create the content area
-        content = QFrame()
-        content.setStyleSheet("background-color: #FFFFFF;") # White
-
-        # Create the layouts
-        header_layout = QVBoxLayout()
-        menu_layout = QVBoxLayout()
-        content_layout = QGridLayout()
-
-        # Create the title
-        title = QLabel("Title")
-        title.setStyleSheet("font-size: 20px;")
-
-        # Create the buttons
-        new_button = QPushButton("New")
-        open_button = QPushButton("Open")
-        save_button = QPushButton("Save")
-        save_as_button = QPushButton("Save As")
-        exit_button = QPushButton("Exit")
-
-        # Add the title to the topbar layout
-        header_layout.addWidget(title)
-
-        # Add the buttons to the toolbar layout
-        menu_layout.addWidget(new_button)
-        menu_layout.addWidget(open_button)
-        menu_layout.addWidget(save_button)
-        menu_layout.addWidget(save_as_button)
-        menu_layout.addWidget(exit_button)
-
-        # Add the layouts to the topbar, toolbar and content
-        header_widget.setLayout(header_layout)
-        menu_widget.setLayout(menu_layout)
-        content.setLayout(content_layout)
-
-        gridlayout = QGridLayout()
-
-        gridlayout.addWidget(header_widget, 0, 0, 1, 2)
-        gridlayout.addWidget(menu_widget, 1, 0)
-        gridlayout.addWidget(content, 1, 1)
-
-        # Set the layout of the main window
-        xWidget = QWidget()
-        xWidget.setLayout(gridlayout)
-        window.setCentralWidget(xWidget)
+    def configure_main_widget(self):
+        self.main_widget.setLayout(self.main_layout)
+        self.window.setCentralWidget(self.main_widget)
 
 
 
 
+    def configure_topbar(self):
+        self.header_widget.setFixedHeight(50)
+        self.header_widget.setStyleSheet("background-color: #36393f")
+        self.header_layout.addWidget(self.title)
+        self.title.setStyleSheet("font-size: 20px;")
 
-        return window
+    def configure_toolbar(self):
+        self.menu_widget.setFixedWidth(100)
+        self.menu_widget.setStyleSheet("background-color: #36393f")
+
+        self.menu_layout.addWidget(self.new_button)
+        self.menu_layout.addWidget(self.open_button)
+        self.menu_layout.addWidget(self.save_button)
+        self.menu_layout.addWidget(self.save_as_button)
+        self.menu_layout.addWidget(self.exit_button)
+
+    def configure_content(self):
+        self.content.setStyleSheet("background-color: #FFFFFF;")
+
+    def configure_layouts(self):
+        self.header_widget.setLayout(self.header_layout)
+        self.menu_widget.setLayout(self.menu_layout)
+        self.content.setLayout(self.content_layout)
+
+        self.main_layout = QGridLayout()
+        self.main_layout.addWidget(self.header_widget, 0, 0, 1, 2)
+        self.main_layout.addWidget(self.menu_widget, 1, 0)
+        self.main_layout.addWidget(self.content, 1, 1)
+
+
+
