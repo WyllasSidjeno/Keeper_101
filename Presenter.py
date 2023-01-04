@@ -7,6 +7,11 @@ class MainPresenter:
         self.view = MainView()
         self.model = MainModel()
 
+    def bind_all_buttons(self):
+        # TODO : Test this function
+       for button in self.view.buttons:
+           button.clicked.connect(self.button_clicked)
+
     def get_data(self):
         return self.model.get_data()
 
@@ -18,3 +23,7 @@ class MainPresenter:
 
     def close(self):
         self.view.close()
+
+def bind_widget(widget, method, signal):
+    # Todo : Implement a for each loop to bind all the widgets sent
+    widget.connect(method, signal)
