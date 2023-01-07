@@ -80,8 +80,11 @@ class MainPresenter:
         handle the events. It is the one that will handle the logic of the
         application."""
         self.view = MainView()
+        """The view of the main window"""
         self.model = MainModel()
+        """The model of the main window"""
         self.ContentPresenter = ContentPresenter(self.view.content)
+        """The presenter of the content area"""
 
     def run(self):
         """Start the application
