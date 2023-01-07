@@ -133,4 +133,5 @@ def bind_widget(widget, method):
     """Bind a widget to a method"""
     from PyQt6.QtWidgets import QAbstractButton
     if isinstance(widget, QAbstractButton):
+        # noinspection PyUnresolvedReferences
         widget.clicked.connect(method)
