@@ -36,18 +36,10 @@ class ContentPresenter:
         if e.button().name == "RightButton":
             self.right_click(e.pos())
 
-    def handle_context_menu(self, action):
+    def handle_context_menu(self, chosen_option):
         """Handle the context menu"""
-        action_name = action.text()
-        action_name = action_name.lower().replace(" ", "_")
-        if action_name == "add_card":
-            self.add_card()
-        elif action_name == "remove":
-            self.remove()
-        elif action_name == "edit":
-            self.edit()
-        elif action_name == "add_list":
-            self.add_list()
+        chosen_option = chosen_option.text().lower().replace(" ", "_")
+        getattr(self, chosen_option)()
 
     def add_card(self):
         """Add a card"""
