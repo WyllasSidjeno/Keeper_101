@@ -4,6 +4,42 @@ from PyQt6.QtWidgets import QMainWindow, QFrame, QVBoxLayout, QLabel, \
 
 
 class ContentView(QFrame):
+class CardView(QFrame):
+    def __init__(self):
+        """A black square"""
+        super().__init__()
+        self.data = None
+        """The data of the card"""
+        self.label = QLabel()
+        """The label of the card"""
+        self.layout = QVBoxLayout()
+        """The layout of the card"""
+
+    def configure(self):
+        """Configure the view of the card"""
+        self.setFrameStyle(QFrame.Shape.Box)
+        self.setLineWidth(1)
+
+        # Make it so it is always 1/3 of the width of the window
+        # Fix it at 33% of the width
+        self.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+
+        self.label.setFixedSize(260, 150)
+        self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.label.setText(self.data)
+        self.layout.addWidget(self.label)
+        self.setLayout(self.layout)
+
+    def get_data(self):
+        """Get the data from the model"""
+        return self.data
+
+    def set_data(self, data):
+        """Set the data in the model"""
+        self.data = data
+        self.label.setText(self.data)
+
+
     """The view of the content area"""
     def __init__(self):
         """Create the view of the content area"""
