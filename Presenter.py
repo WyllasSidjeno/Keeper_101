@@ -1,4 +1,6 @@
-from Model import MainModel
+from PyQt6.QtGui import QMouseEvent
+
+from Model import MainModel, ContentModel
 from View import MainView
 
 
