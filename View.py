@@ -214,31 +214,23 @@ class MainView:
         """The content area"""
 
         # Creates the layouts for the widgets
-        self.header_layout = QVBoxLayout()
+        self.header_layout = PyQt6.QtWidgets.QVBoxLayout()
         """The layout of the topbar"""
-        self.menu_layout = QVBoxLayout()
+        self.menu_layout = PyQt6.QtWidgets.QVBoxLayout()
         """The layout of the toolbar"""
-        self.content_layout = QGridLayout()
+        self.content_layout = PyQt6.QtWidgets.QGridLayout()
         """The layout of the content area"""
+        self.title = PyQt6.QtWidgets.QLabel()
 
-        # Creates the topbar widgets
-        self.title = QLabel("Keeper 101")
-        """The title"""
+        self.buttons = dict(new=PyQt6.QtWidgets.QPushButton("New"),
+                            open=PyQt6.QtWidgets.QPushButton("Open"),
+                            save=PyQt6.QtWidgets.QPushButton("Save"),
+                            save_as=PyQt6.QtWidgets.QPushButton("Save as"),
+                            exit=PyQt6.QtWidgets.QPushButton("Exit"))
 
-        # Create a list containing all the buttons
-        # Dictionnary containing all the buttons
-        self.buttons = {
-            "new"    : QPushButton("New"),
-            "open"   : QPushButton("Open"),
-            "save"   : QPushButton("Save"),
-            "save_as": QPushButton("Save as"),
-            "exit"   : QPushButton("Exit")
-            }
-
-        """The exit button"""
-        self.main_layout = QGridLayout()
+        self.main_layout = PyQt6.QtWidgets.QGridLayout()
         """The main layout of the main window"""
-        self.main_widget = QWidget()
+        self.main_widget = PyQt6.QtWidgets.QWidget()
         """The main widget of the main window"""
 
     def show(self):
@@ -252,7 +244,7 @@ class MainView:
     def configure_app(self):
         """Configure the main window and all the widgets associated with it
         This includes the topbar, the toolbar and the content area and
-        their layoutsmas well as the main window itself using their
+        their layouts as well as the main window itself using their
         dedicated methods
         """
         # Configure the main window
@@ -288,12 +280,18 @@ class MainView:
 
         for button in self.buttons.values():
             self.menu_layout.addWidget(button)
+
             button.setFixedHeight(30)
             button.setFixedWidth(60)
-            button.setStyleSheet("QPushButton {background-color: #2f3136; color: white; border: 1px solid #2f3136;}"
-                                 "QPushButton:hover {background-color: #40444b;}"
-                                 "QPushButton:pressed {background-color: #7289da;}")
-            button.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+
+            button.setStyleSheet(
+                "QPushButton {background-color: #2f3136; color: white;"
+                " border: 1px solid #2f3136;}"
+                "QPushButton:hover {background-color: #40444b;}"
+                "QPushButton:pressed {background-color: #7289da;}")
+
+            button.setSizePolicy(PyQt6.QtWidgets.QSizePolicy.Policy.Minimum,
+                                 PyQt6.QtWidgets.QSizePolicy.Policy.Minimum)
 
         self.menu_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.menu_layout.setSpacing(60)
@@ -304,13 +302,13 @@ class MainView:
         self.menu_widget.setLayout(self.menu_layout)
         self.content.setLayout(self.content_layout)
 
-        self.main_layout = QGridLayout()
+        self.main_layout = PyQt6.QtWidgets.QGridLayout()
         self.main_layout.addWidget(self.header_widget, 0, 0, 1, 2)
         self.main_layout.addWidget(self.menu_widget, 1, 0)
         self.main_layout.addWidget(self.content, 1, 1)
 
     def configure_main_window(self):
         """Configure the main window"""
-        self.window.setWindowTitle("Keeper 101")
+        self.window.setWindowTitle("Keeper 101 - The best note taking app")
         self.window.setStyleSheet("background-color: #2f3136")
         self.window.resize(800, 600)
