@@ -23,6 +23,13 @@ class MainModel(AbstractModel):
         """Create the model"""
         super().__init__()
 
+class ContentModel(AbstractModel):
+    """The model of the content area"""
+    def __init__(self):
+        """Create the model"""
+        super().__init__()
+
+
     name = name.lower().replace(" ", "_")
     path = destination + name + imgtype
     return path
