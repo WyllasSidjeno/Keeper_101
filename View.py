@@ -3,7 +3,6 @@ from PyQt6.QtWidgets import QMainWindow, QFrame, QVBoxLayout, QLabel, \
     QPushButton, QGridLayout, QWidget, QSizePolicy, QMenu
 
 
-class ContentView(QFrame):
 class CardView(QFrame):
     def __init__(self):
         """A black square"""
@@ -40,6 +39,7 @@ class CardView(QFrame):
         self.label.setText(self.data)
 
 
+class ContentBoxView(QFrame):
     """The view of the content area"""
     def __init__(self):
         """Create the view of the content area"""
