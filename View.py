@@ -123,17 +123,17 @@ class ContentBoxView(QFrame):
         """Configure the content area"""
         self.setStyleSheet("background-color: #36393f;")  # Dark theme
         self.create_context_menu()
-        self.context_menu.setStyleSheet("background-color: #36393f;")
         self.customContextMenuRequested.connect(self.show_context_menu)
+        # TODO : Move this to the presenter as it is a logic function
 
     def create_context_menu(self):
         """Create the context menu"""
+        self.context_menu.setStyleSheet("background-color: #36393f;")
         self.context_menu.addAction("Add Card")
         self.context_menu.addAction("Remove")
         self.context_menu.addAction("Edit")
         self.context_menu.addAction("Add List")
         self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
-
 
     def show_context_menu(self, point: QPoint):
         """Show the context menu"""
@@ -210,7 +210,7 @@ class MainView:
         """The topbar"""
         self.menu_widget = QFrame()
         """The toolbar"""
-        self.content = ContentView()  # TODO: Make a content area class
+        self.content = ContentBoxView()
         """The content area"""
 
         # Creates the layouts for the widgets
@@ -261,7 +261,7 @@ class MainView:
         # Configure three main components - topbar, toolbar, content
         self.configure_topbar()
         self.configure_toolbar()
-        self.content.configure_content_box()
+        self.content.configure()
 
         # Configure the layouts
         self.configure_layouts()
