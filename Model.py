@@ -17,6 +17,12 @@ class AbstractModel(ABC):
 
 
 def format_text_to_path(name, imgtype=".png", destination="./"):
+class MainModel(AbstractModel):
+    """The model of the main window"""
+    def __init__(self):
+        """Create the model"""
+        super().__init__()
+
     name = name.lower().replace(" ", "_")
     path = destination + name + imgtype
     return path
