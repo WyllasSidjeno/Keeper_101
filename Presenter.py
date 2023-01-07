@@ -1,11 +1,12 @@
+"""Represents the Presenter in the MVP pattern of the application."""
 from PyQt6.QtGui import QMouseEvent
-
 from Model import MainModel, ContentModel
 from View import MainView
 
 
 class ContentPresenter:
     """The presenter of the content area"""
+
     def __init__(self, view):
         """Create the presenter"""
         self.view = view
@@ -65,6 +66,7 @@ class MainPresenter:
     start the application. It is the one that will handle the events. It is
     the one that will handle the logic of the application.
     """
+
     def __init__(self):
         """Create the main presenter
         It is the main class of the application. It is the one that will
