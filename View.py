@@ -1,27 +1,28 @@
+""" This module represents the View component of the Keeper 101 program."""
 from PyQt6.QtCore import QPoint, Qt
-from PyQt6.QtWidgets import QMainWindow, QFrame, QVBoxLayout, QLabel, \
-    QPushButton, QGridLayout, QWidget, QSizePolicy, QMenu, QScrollArea
+import PyQt6.QtWidgets
 
 
-class CardView(QFrame):
+class CardView(PyQt6.QtWidgets.QFrame):
+    """The view of a card"""
+
     def __init__(self):
         """A black square"""
         super().__init__()
         self.data = None
         """The data of the card"""
-        self.label = QLabel()
+        self.label = PyQt6.QtWidgets.QLabel()
         """The label of the card"""
-        self.layout = QVBoxLayout()
+        self.layout = PyQt6.QtWidgets.QVBoxLayout()
         """The layout of the card"""
 
     def configure(self):
         """Configure the view of the card"""
-        self.setFrameStyle(QFrame.Shape.Box)
+        self.setFrameStyle(PyQt6.QtWidgets.QFrame.Shape.Box)
         self.setLineWidth(1)
 
-        # Make it so it is always 1/3 of the width of the window
-        # Fix it at 33% of the width
-        self.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        self.setSizePolicy(PyQt6.QtWidgets.QSizePolicy.Policy.Fixed,
+                           PyQt6.QtWidgets.QSizePolicy.Policy.Fixed)
 
         self.label.setFixedSize(260, 150)
         self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -39,23 +40,23 @@ class CardView(QFrame):
         self.label.setText(self.data)
 
 
-class ContentBoxView(QFrame):
+class ContentBoxView(PyQt6.QtWidgets.QFrame):
     """The view of the content area"""
 
     def __init__(self):
         """Create the view of the content area"""
         super().__init__()
-        self.context_menu = QMenu(self)
+        self.context_menu = PyQt6.QtWidgets.QMenu(self)
         """The context menu - On right click"""
 
-        self.topbar = QWidget()
+        self.topbar = PyQt6.QtWidgets.QWidget()
         """The topbar of the content area"""
-        self.topbar_layout = QGridLayout()
+        self.topbar_layout = PyQt6.QtWidgets.QGridLayout()
         """The layout of the topbar"""
-        self.topbar_label = QLabel("Choose the file type")
+        self.topbar_label = PyQt6.QtWidgets.QLabel("Choose the file type")
         """The label of the topbar"""
 
-        self.content = QWidget()
+        self.content = PyQt6.QtWidgets.QWidget()
         """The content area"""
         self.nb_cards = 0
         """The number of cards in the content area"""
@@ -66,16 +67,17 @@ class ContentBoxView(QFrame):
         self.max_column = 2
         """The max column of the content area"""
 
-        self.content_layout = QGridLayout()
+        self.content_layout = PyQt6.QtWidgets.QGridLayout()
         """The layout of the content area"""
 
-        self.main_layout = QVBoxLayout()
+        self.main_layout = PyQt6.QtWidgets.QVBoxLayout()
         """The main layout of the content area"""
 
-        self.scroll = QScrollArea()
+        self.scroll = PyQt6.QtWidgets.QScrollArea()
         """The scroll area of the content area"""
 
-        self.scroll.setMinimumWidth(300) # TODO : Move this to the presenter as it is a logic function
+        self.scroll.setMinimumWidth(
+            300)  # TODO : Move this to the presenter as it is a logic function
 
     def configure(self):
         """Configure the content area"""
@@ -105,13 +107,13 @@ class ContentBoxView(QFrame):
     def configure_content(self):
         """Configure the content area"""
         self.content.setStyleSheet("background-color: #2f3136;")
-        self.content.setSizePolicy(QSizePolicy.Policy.Expanding,
-                                   QSizePolicy.Policy.Expanding)
+        self.content.setSizePolicy(PyQt6.QtWidgets.QSizePolicy.Policy.Expanding,
+                                   PyQt6.QtWidgets.QSizePolicy.Policy.Expanding)
 
     def configure_scrollarea(self):
         """Configure the scroll area"""
         self.scroll.setWidgetResizable(True)
-        self.scroll.setFrameStyle(QFrame.Shape.NoFrame)
+        self.scroll.setFrameStyle(PyQt6.QtWidgets.QFrame.Shape.NoFrame)
         self.scroll.setStyleSheet("background-color: #36393f;")
         self.scroll.setHorizontalScrollBarPolicy(
             Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
@@ -121,10 +123,8 @@ class ContentBoxView(QFrame):
 
     def configure_content_box(self):
         """Configure the content area"""
-        self.setStyleSheet("background-color: #36393f;")  # Dark theme
+        self.setStyleSheet("background-color: #36393f;")
         self.create_context_menu()
-        self.customContextMenuRequested.connect(self.show_context_menu)
-        # TODO : Move this to the presenter as it is a logic function
 
     def create_context_menu(self):
         """Create the context menu"""
@@ -139,7 +139,7 @@ class ContentBoxView(QFrame):
         """Show the context menu"""
         self.context_menu.exec(self.mapToGlobal(point))
 
-    def add_card(self, card : QWidget):
+    def add_card(self, card: PyQt6.QtWidgets.QWidget):
         """Add a card to the content area"""
         self.content_layout.addWidget(card, self.row,
                                       self.column)
@@ -150,15 +150,14 @@ class ContentBoxView(QFrame):
             self.row += 1
 
     @staticmethod
-    def create_card(data):
+    def create_card():
         """Create a card"""
         card = CardView()
         card.configure()
-        card.set_data(data)
 
     def resizeEvent(self, event):
         """Looks if a resize needs to be done"""
-        card_width = 260 # TODO : Get the width of the card from the model
+        card_width = 260  # TODO : Get the width of the card from the model
         possible_column = self.width() // (card_width * 1.10)
         possible_column = int(possible_column)
         if possible_column != self.max_column:
@@ -171,6 +170,7 @@ class ContentBoxView(QFrame):
         cards = []
         for i in reversed(range(self.content_layout.count())):
             cards.append(self.content_layout.itemAt(i).widget())
+            # noinspection PyTypeChecker
             self.content_layout.itemAt(i).widget().setParent(None)
 
         cards.reverse()
@@ -202,13 +202,13 @@ class MainView:
         - The content area - Contains the content
         """
         # Starts by creating the main window
-        self.window = QMainWindow()
+        self.window = PyQt6.QtWidgets.QMainWindow()
         """The main window"""
 
         # Creates the main widgets
-        self.header_widget = QFrame()
+        self.header_widget = PyQt6.QtWidgets.QFrame()
         """The topbar"""
-        self.menu_widget = QFrame()
+        self.menu_widget = PyQt6.QtWidgets.QFrame()
         """The toolbar"""
         self.content = ContentBoxView()
         """The content area"""
