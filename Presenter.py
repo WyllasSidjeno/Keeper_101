@@ -68,27 +68,75 @@ class ContentPresenter:
 
 
 class MainPresenter:
+    """This is the main function of the application.
+    It is the one that will
+    create the main window and the main presenter. It is the one that will
+    start the application. It is the one that will handle the events. It is
+    the one that will handle the logic of the application.
+    """
     def __init__(self):
+        """Create the main presenter
+        It is the main class of the application. It is the one that will
+        communicate with the model and the view. It is the one that will
+        handle the events. It is the one that will handle the logic of the
+        application."""
         self.view = MainView()
         self.model = MainModel()
+        self.ContentPresenter = ContentPresenter(self.view.content)
 
-    def bind_all_buttons(self):
-        # TODO : Test this function
-       for button in self.view.buttons:
-           button.clicked.connect(self.button_clicked)
+    def run(self):
+        """Start the application
+        This function will start the application. It will create the main
+        window and the main presenter."""
+        self.view.configure_app()
+        self.view.show()
+        self.bind_all_buttons()
+        self.ContentPresenter.run()
 
     def get_data(self):
+        """Get the data from the model"""
+        # TODO : Get a specific data instead of all the data
         return self.model.get_data()
 
     def set_data(self, data):
+        # TODO : Set a specific data instead of all the data
+        """Set the data in the model"""
         self.model.set_data(data)
 
-    def show(self):
-        self.view.show()
-
     def close(self):
+        """Close the application"""
         self.view.close()
 
-def bind_widget(widget, method, signal):
-    # Todo : Implement a for each loop to bind all the widgets sent
-    widget.connect(method, signal)
+    def on_new_clicked(self):
+        """Open a menu to create a new file"""
+        print("New clicked")
+
+    def on_open_clicked(self):
+        """Open a menu to open a file"""
+        print("Open clicked")
+
+    def on_save_clicked(self):
+        """Save the data"""
+        print("Save clicked")
+
+    def on_save_as_clicked(self):
+        """Save the data as a new file"""
+        print("Save as clicked")
+
+    def on_exit_clicked(self):
+        """Exit the application, pretty much a wrapper for close"""
+        print("Exit clicked")
+        self.close()
+
+    def bind_all_buttons(self):
+        """Bind all the buttons to their respective functions"""
+        for button in self.view.buttons:
+            method = getattr(self, "on_" + button + "_clicked")
+            bind_widget(self.view.buttons[button], method)
+
+
+def bind_widget(widget, method):
+    """Bind a widget to a method"""
+    from PyQt6.QtWidgets import QAbstractButton
+    if isinstance(widget, QAbstractButton):
+        widget.clicked.connect(method)
