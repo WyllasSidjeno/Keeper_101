@@ -23,19 +23,18 @@ class ContentPresenter:
         """Bind the view (QFrame) to the function that will handle the click"""
         self.view.mousePressEvent = self.handle_click
 
-    def handle_click(self, e: QMouseEvent):
-        """Handle the click and call the right function"""
-        if e.button().name == "RightButton":
-            self.right_click(e.pos())
+    def bind_context_menu(self):
+        """Bind the context menu to the right functions"""
+        self.view.context_menu.triggered.connect(self.handle_context_menu)
 
     def right_click(self, pos):
         """Handle the right click - Show the context menu"""
         self.view.show_context_menu(pos)
 
-    def bind_context_menu(self):
-        """Bind the context menu to the right functions"""
-        print(self.view.context_menu.actions())
-        self.view.context_menu.triggered.connect(self.handle_context_menu)
+    def handle_click(self, e: QMouseEvent):
+        """Handle the click and call the right function"""
+        if e.button().name == "RightButton":
+            self.right_click(e.pos())
 
     def handle_context_menu(self, action):
         """Handle the context menu"""
