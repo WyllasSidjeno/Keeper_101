@@ -16,7 +16,6 @@ class AbstractModel(ABC):
         self.data = data
 
 
-def format_text_to_path(name, imgtype=".png", destination="./"):
 class MainModel(AbstractModel):
     """The model of the main window"""
     def __init__(self):
@@ -30,6 +29,8 @@ class ContentModel(AbstractModel):
         super().__init__()
 
 
+def format_text_to_path(name, ext, main_directory="./"):
+    """Format the text to a path to an image"""
     name = name.lower().replace(" ", "_")
-    path = destination + name + imgtype
+    path = main_directory + name + ext
     return path
