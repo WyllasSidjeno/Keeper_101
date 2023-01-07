@@ -1,6 +1,6 @@
 from PyQt6.QtCore import QPoint, Qt
 from PyQt6.QtWidgets import QMainWindow, QFrame, QVBoxLayout, QLabel, \
-    QPushButton, QGridLayout, QWidget, QSizePolicy, QMenu
+    QPushButton, QGridLayout, QWidget, QSizePolicy, QMenu, QScrollArea
 
 
 class CardView(QFrame):
