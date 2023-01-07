@@ -139,6 +139,51 @@ class ContentBoxView(QFrame):
         """Show the context menu"""
         self.context_menu.exec(self.mapToGlobal(point))
 
+    def add_card(self, card : QWidget):
+        """Add a card to the content area"""
+        self.content_layout.addWidget(card, self.row,
+                                      self.column)
+        self.nb_cards += 1
+        self.column += 1
+        if self.column == self.max_column:
+            self.column = 0
+            self.row += 1
+
+    @staticmethod
+    def create_card(data):
+        """Create a card"""
+        card = CardView()
+        card.configure()
+        card.set_data(data)
+
+    def resizeEvent(self, event):
+        """Looks if a resize needs to be done"""
+        card_width = 260 # TODO : Get the width of the card from the model
+        possible_column = self.width() // (card_width * 1.10)
+        possible_column = int(possible_column)
+        if possible_column != self.max_column:
+            self.max_column = possible_column
+            self.update_cards()
+
+    def update_cards(self):
+        """Update the cards"""
+        # Remove them all
+        cards = []
+        for i in reversed(range(self.content_layout.count())):
+            cards.append(self.content_layout.itemAt(i).widget())
+            self.content_layout.itemAt(i).widget().setParent(None)
+
+        cards.reverse()
+        self.row = 0
+        self.column = 0
+        for card in cards:
+            self.content_layout.addWidget(card, self.row,
+                                          self.column)
+            self.column += 1
+            if self.column == self.max_column:
+                self.column = 0
+                self.row += 1
+
 
 class MainView:
     """Main view of the application
