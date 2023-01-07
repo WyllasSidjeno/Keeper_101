@@ -6,5 +6,5 @@ if __name__ == '__main__':
     # Create the main presentation and a app using pyqt6
     app = QApplication(sys.argv)
     presentation = MainPresenter()
-    presentation.show()
+    presentation.run()
     sys.exit(app.exec())
