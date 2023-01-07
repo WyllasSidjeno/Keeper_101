@@ -41,10 +41,83 @@ class CardView(QFrame):
 
 class ContentBoxView(QFrame):
     """The view of the content area"""
+
     def __init__(self):
         """Create the view of the content area"""
         super().__init__()
         self.context_menu = QMenu(self)
+        """The context menu - On right click"""
+
+        self.topbar = QWidget()
+        """The topbar of the content area"""
+        self.topbar_layout = QGridLayout()
+        """The layout of the topbar"""
+        self.topbar_label = QLabel("Choose the file type")
+        """The label of the topbar"""
+
+        self.content = QWidget()
+        """The content area"""
+        self.nb_cards = 0
+        """The number of cards in the content area"""
+        self.row = 0
+        """The row of the content area"""
+        self.column = 0
+        """The column of the content area"""
+        self.max_column = 2
+        """The max column of the content area"""
+
+        self.content_layout = QGridLayout()
+        """The layout of the content area"""
+
+        self.main_layout = QVBoxLayout()
+        """The main layout of the content area"""
+
+        self.scroll = QScrollArea()
+        """The scroll area of the content area"""
+
+        self.scroll.setMinimumWidth(300) # TODO : Move this to the presenter as it is a logic function
+
+    def configure(self):
+        """Configure the content area"""
+        self.configure_topbar()
+        self.configure_content()
+        self.configure_content_box()
+        self.configure_layouts()
+        self.configure_scrollarea()
+
+    def configure_topbar(self):
+        """Configure the topbar"""
+        self.topbar.setStyleSheet("background-color: #2f3136;")
+        self.topbar_layout.addWidget(self.topbar_label, 0, 0)
+        self.topbar_label.setStyleSheet("color: darkgrey;")
+        self.topbar.setMaximumHeight(35)
+        self.topbar_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+    def configure_layouts(self):
+        """Configure the layouts of the content area"""
+        self.topbar.setLayout(self.topbar_layout)
+        self.content.setLayout(self.content_layout)
+        self.scroll.setWidget(self.content)
+
+        self.main_layout.addWidget(self.scroll)
+        self.setLayout(self.main_layout)
+
+    def configure_content(self):
+        """Configure the content area"""
+        self.content.setStyleSheet("background-color: #2f3136;")
+        self.content.setSizePolicy(QSizePolicy.Policy.Expanding,
+                                   QSizePolicy.Policy.Expanding)
+
+    def configure_scrollarea(self):
+        """Configure the scroll area"""
+        self.scroll.setWidgetResizable(True)
+        self.scroll.setFrameStyle(QFrame.Shape.NoFrame)
+        self.scroll.setStyleSheet("background-color: #36393f;")
+        self.scroll.setHorizontalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+
+        self.scroll.setVerticalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAsNeeded)
 
     def configure_content_box(self):
         """Configure the content area"""
