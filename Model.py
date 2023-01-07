@@ -1,12 +1,18 @@
+from abc import ABC
 
-class MainModel:
+
+class AbstractModel(ABC):
+    """Abstract class for models"""
     def __init__(self):
+        """Create the model"""
         self.data = None
-
+        """The data of the model"""
     def get_data(self):
+        """Get the data from the model"""
         return self.data
 
     def set_data(self, data):
+        """Set the data in the model"""
         self.data = data
 
 
