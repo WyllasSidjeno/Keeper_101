@@ -1,7 +1,35 @@
 from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QMainWindow, QFrame, QVBoxLayout, QLabel, \
-    QPushButton, QGridLayout, QWidget, QSizePolicy
+    QPushButton, QGridLayout, QWidget, QSizePolicy, QMenu
+
+
+class ContentView(QFrame):
+    """The view of the content area"""
+    def __init__(self):
+        """Create the view of the content area"""
+        super().__init__()
+        self.context_menu = QMenu(self)
+
+    def configure_content_box(self):
+        """Configure the content area"""
+        self.setStyleSheet("background-color: #36393f;")  # Dark theme
+        self.create_context_menu()
+        self.context_menu.setStyleSheet("background-color: #36393f;")
+        self.customContextMenuRequested.connect(self.show_context_menu)
+
+    def create_context_menu(self):
+        """Create the context menu"""
+        self.context_menu.addAction("Add Card")
+        self.context_menu.addAction("Remove")
+        self.context_menu.addAction("Edit")
+        self.context_menu.addAction("Add List")
+        self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+
+
+    def show_context_menu(self, point: QPoint):
+        """Show the context menu"""
+        self.context_menu.exec(self.mapToGlobal(point))
 
 
 class MainView:
