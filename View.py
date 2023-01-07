@@ -1,5 +1,4 @@
-from PyQt6.QtCore import Qt, QSize
-from PyQt6.QtGui import QIcon
+from PyQt6.QtCore import QPoint, Qt
 from PyQt6.QtWidgets import QMainWindow, QFrame, QVBoxLayout, QLabel, \
     QPushButton, QGridLayout, QWidget, QSizePolicy, QMenu
 
@@ -33,6 +32,13 @@ class ContentView(QFrame):
 
 
 class MainView:
+    """Main view of the application
+    It has three elements :
+    - The topbar - Contains the title
+    - The toolbar - Contains the buttons
+    - The content area - Contains the content
+    """
+
     def __init__(self):
         """Create the main window and all the widgets associated with it
 
@@ -50,7 +56,7 @@ class MainView:
         """The topbar"""
         self.menu_widget = QFrame()
         """The toolbar"""
-        self.content = QFrame()
+        self.content = ContentView()  # TODO: Make a content area class
         """The content area"""
 
         # Creates the layouts for the widgets
@@ -65,42 +71,43 @@ class MainView:
         self.title = QLabel("Keeper 101")
         """The title"""
 
-        # Change for a self.button.type = QPushButton("TypeText")
-        # Creates the toolbar widgets
-        self.new_button = QPushButton("New")
-        """The new button"""
-        self.open_button = QPushButton("Open")
-        """The open button"""
-        self.save_button = QPushButton("Save")
-        """The save button"""
-        self.save_as_button = QPushButton("Save as")
-        """The save as button"""
-        self.exit_button = QPushButton("Exit")
-        """The exit button"""
+        # Create a list containing all the buttons
+        # Dictionnary containing all the buttons
+        self.buttons = {
+            "new"    : QPushButton("New"),
+            "open"   : QPushButton("Open"),
+            "save"   : QPushButton("Save"),
+            "save_as": QPushButton("Save as"),
+            "exit"   : QPushButton("Exit")
+            }
 
+        """The exit button"""
         self.main_layout = QGridLayout()
         """The main layout of the main window"""
         self.main_widget = QWidget()
         """The main widget of the main window"""
 
-        # Configures the app. This includes the main app window and its three
-        # components.
-        self.configure_app()
-
     def show(self):
+        """Show the main window"""
         self.window.show()
 
     def close(self):
+        """Close the main window"""
         self.window.close()
 
     def configure_app(self):
+        """Configure the main window and all the widgets associated with it
+        This includes the topbar, the toolbar and the content area and
+        their layoutsmas well as the main window itself using their
+        dedicated methods
+        """
         # Configure the main window
         self.configure_main_window()
 
         # Configure three main components - topbar, toolbar, content
         self.configure_topbar()
         self.configure_toolbar()
-        self.configure_content()
+        self.content.configure_content_box()
 
         # Configure the layouts
         self.configure_layouts()
@@ -109,30 +116,26 @@ class MainView:
         self.configure_main_widget()
 
     def configure_main_widget(self):
+        """Configure the main widget of the main window (The whole view)"""
         self.main_widget.setLayout(self.main_layout)
         self.window.setCentralWidget(self.main_widget)
 
     def configure_topbar(self):
+        """Configure the topbar"""
         self.header_widget.setFixedHeight(50)
         self.header_widget.setStyleSheet("background-color: #36393f")
         self.header_layout.addWidget(self.title)
         self.title.setStyleSheet("color: white; font-size: 20px;")
 
     def configure_toolbar(self):
+        """Configure the toolbar"""
         self.menu_widget.setFixedWidth(100)
         self.menu_widget.setStyleSheet("background-color: #36393f")  # Dark theme
 
-        self.menu_layout.addWidget(self.new_button)
-        self.menu_layout.addWidget(self.open_button)
-        self.menu_layout.addWidget(self.save_button)
-        self.menu_layout.addWidget(self.save_as_button)
-        self.menu_layout.addWidget(self.exit_button)
-
-        for button in [self.new_button, self.open_button, self.save_button,
-                       self.save_as_button, self.exit_button]:
+        for button in self.buttons.values():
+            self.menu_layout.addWidget(button)
             button.setFixedHeight(30)
             button.setFixedWidth(60)
-            # Give it a dynamic animation when the mouse hovers over it and when it clicks on it.
             button.setStyleSheet("QPushButton {background-color: #2f3136; color: white; border: 1px solid #2f3136;}"
                                  "QPushButton:hover {background-color: #40444b;}"
                                  "QPushButton:pressed {background-color: #7289da;}")
@@ -141,10 +144,8 @@ class MainView:
         self.menu_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.menu_layout.setSpacing(60)
 
-    def configure_content(self):
-        self.content.setStyleSheet("background-color: #36393f;")  # Dark theme
-
     def configure_layouts(self):
+        """Configure the layouts of the main window"""
         self.header_widget.setLayout(self.header_layout)
         self.menu_widget.setLayout(self.menu_layout)
         self.content.setLayout(self.content_layout)
@@ -155,6 +156,7 @@ class MainView:
         self.main_layout.addWidget(self.content, 1, 1)
 
     def configure_main_window(self):
+        """Configure the main window"""
         self.window.setWindowTitle("Keeper 101")
         self.window.setStyleSheet("background-color: #2f3136")
         self.window.resize(800, 600)
