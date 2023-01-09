@@ -1,14 +1,14 @@
-"""Represents the Presenter in the MVP pattern of the application."""
+"""Represents the Controller in the MVC pattern of the application."""
 from PyQt6.QtGui import QMouseEvent
 from Model import MainModel, ContentModel
 from View import MainView
 
 
-class ContentPresenter:
-    """The presenter of the content area"""
+class ContentController:
+    """The controller of the content area"""
 
     def __init__(self, view):
-        """Create the presenter"""
+        """Create the controller"""
         self.view = view
         """The view of the content area #Do some type hinting
         It is a QFrame"""
@@ -59,16 +59,16 @@ class ContentPresenter:
         print("Add a list")
 
 
-class MainPresenter:
+class MainController:
     """This is the main function of the application.
     It is the one that will
-    create the main window and the main presenter. It is the one that will
+    create the main window and the main controller. It is the one that will
     start the application. It is the one that will handle the events. It is
     the one that will handle the logic of the application.
     """
 
     def __init__(self):
-        """Create the main presenter
+        """Create the main controller
         It is the main class of the application. It is the one that will
         communicate with the model and the view. It is the one that will
         handle the events. It is the one that will handle the logic of the
@@ -77,7 +77,7 @@ class MainPresenter:
         """The view of the main window"""
         self.model = MainModel()
         """The model of the main window"""
-        self.ContentPresenter = ContentPresenter(self.view.content)
+        self.ContentPresenter = ContentController(self.view.content)
         """The presenter of the content area"""
 
     def run(self):
