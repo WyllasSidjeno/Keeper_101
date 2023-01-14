@@ -2,6 +2,7 @@
 from PyQt6.QtGui import QMouseEvent
 from Model import MainModel, ContentModel
 from View import MainView
+from View import create_card
 
 
 class ContentController:
@@ -28,14 +29,10 @@ class ContentController:
         """Bind the context menu to the right functions"""
         self.view.context_menu.triggered.connect(self.handle_context_menu)
 
-    def right_click(self, pos):
-        """Handle the right click - Show the context menu"""
-        self.view.show_context_menu(pos)
-
     def handle_click(self, e: QMouseEvent):
         """Handle the click and call the right function"""
         if e.button().name == "RightButton":
-            self.right_click(e.pos())
+            self.view.show_context_menu(e.pos())
 
     def handle_context_menu(self, chosen_option):
         """Handle the context menu"""
@@ -44,11 +41,16 @@ class ContentController:
 
     def add_card(self):
         """Add a card"""
-        print("Add a card")
+        card = create_card()
+        self.view.add_card(card)
 
     def remove(self):
         """Remove a card"""
-        print("Remove a card")
+        # Get the user mouse posisition
+        mouse_pos = self.view.mapFromGlobal(self.view.cursor().pos())
+        # Get the position of all the cards
+        print(mouse_pos)
+        self.view.content.get_card_position()
 
     def edit(self):
         """Edit a card"""

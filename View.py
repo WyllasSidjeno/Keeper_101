@@ -3,13 +3,20 @@ from PyQt6.QtCore import QPoint, Qt
 import PyQt6.QtWidgets
 
 
+def create_card():
+    """Create a card - a widget that will contain the data of a card"""
+    card = CardView()
+    card.configure()
+    return card
+
+
 class CardView(PyQt6.QtWidgets.QFrame):
     """The view of a card"""
 
     def __init__(self):
         """A black square"""
         super().__init__()
-        self.data = None
+        self.data = "A random card"
         """The data of the card"""
         self.label = PyQt6.QtWidgets.QLabel()
         """The label of the card"""
@@ -100,6 +107,7 @@ class ContentBoxView(PyQt6.QtWidgets.QFrame):
         self.topbar.setLayout(self.topbar_layout)
         self.content.setLayout(self.content_layout)
         self.scroll.setWidget(self.content)
+        self.main_layout.addWidget(self.topbar)
 
         self.main_layout.addWidget(self.scroll)
         self.setLayout(self.main_layout)
@@ -120,6 +128,11 @@ class ContentBoxView(PyQt6.QtWidgets.QFrame):
 
         self.scroll.setVerticalScrollBarPolicy(
             Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+
+    def get_card_position(self):
+        """Get the position of the card as X and Y, not col and row"""
+        # todo: here
+
 
     def configure_content_box(self):
         """Configure the content area"""
@@ -148,12 +161,6 @@ class ContentBoxView(PyQt6.QtWidgets.QFrame):
         if self.column == self.max_column:
             self.column = 0
             self.row += 1
-
-    @staticmethod
-    def create_card():
-        """Create a card"""
-        card = CardView()
-        card.configure()
 
     def resizeEvent(self, event):
         """Looks if a resize needs to be done"""
@@ -268,6 +275,7 @@ class MainView:
 
     def configure_topbar(self):
         """Configure the topbar"""
+        self.title.setText("Keeper 101 - Main Menu")
         self.header_widget.setFixedHeight(50)
         self.header_widget.setStyleSheet("background-color: #36393f")
         self.header_layout.addWidget(self.title)
@@ -302,7 +310,6 @@ class MainView:
         self.menu_widget.setLayout(self.menu_layout)
         self.content.setLayout(self.content_layout)
 
-        self.main_layout = PyQt6.QtWidgets.QGridLayout()
         self.main_layout.addWidget(self.header_widget, 0, 0, 1, 2)
         self.main_layout.addWidget(self.menu_widget, 1, 0)
         self.main_layout.addWidget(self.content, 1, 1)
